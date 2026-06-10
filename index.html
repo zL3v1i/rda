@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Royal Dance Academy | Dharan, Nepal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #ff1e1e;
+            --primary-glow: rgba(255, 30, 30, 0.4);
+            --dark-bg: #0a0a0a;
+            --card-bg: rgba(20, 20, 20, 0.75); /* Glassmorphism translucency over silhouette */
+            --card-hover: rgba(31, 31, 31, 0.85);
+            --text-light: #ffffff;
+            --text-gray: #cccccc;
+            --border-color: rgba(255, 30, 30, 0.25);
+            --transition: all 0.3s ease;
+        }
+
+        /* Basic Reset */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* --------------------------------------------------
+           1. INTRO COIN SPINNING ANIMATION
+        ----------------------------------------------------- */
+        #intro-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #000000;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            pointer-events: none;
+            animation: fadeOutOverlay 0.5s ease forwards 4s;
+            perspective: 1000px;
+        }
+
+        .coin-wrapper {
+            width: 260px;
+            height: 260px;
+            transform-style: preserve-3d;
+            animation: spinCoin 3.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+
+        .coin-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            backface-visibility: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .coin-front, .coin-back {
+            background: url('logo.png') no-repeat center center;
+            background-size: contain;
+            box-shadow: 0 0 40px var(--primary-glow);
+        }
+
+        .coin-back {
+            transform: rotateY(180deg);
+        }
+
+        @keyframes spinCoin {
+            0% { transform: rotateY(0deg) scale(0.6); }
+            50% { transform: rotateY(1080deg) scale(1.05); }
+            100% { transform: rotateY(2160deg) scale(1); }
+        }
+
+        @keyframes fadeOutOverlay {
+            0% { opacity: 1; visibility: visible; }
+            100% { opacity: 0; visibility: hidden; }
+        }
+
+        /* --------------------------------------------------
+           2. HEADER SECTION WITH LOGO
+        ----------------------------------------------------- */
+        .top-header {
+            width: 100%;
+            background: linear-gradient(180deg, #000000 0%, var(--dark-bg) 100%);
+            padding: 40px 20px 20px 20px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header-logo {
+            width: 150px;
+            height: 150px;
+            object-fit: contain;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 0 15px var(--primary-glow));
+        }
+
+        .banner-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-light);
+            font-weight: 900;
+        }
+        
+        .banner-title span {
+            color: var(--primary);
+            text-shadow: 0 0 15px rgba(255, 30, 30, 0.5);
+        }
+
+        .banner-subtitle {
+            font-size: 0.95rem;
+            color: var(--text-gray);
+            margin-top: 5px;
+            letter-spacing: 1px;
+        }
+
+        /* --------------------------------------------------
+           3. STICKY NAVIGATION MENU
+        ----------------------------------------------------- */
+        nav {
+            background-color: #0d0d0d;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px 20px;
+            gap: 15px;
+        }
+
+        .nav-brand {
+            font-family: 'Cinzel', serif;
+            font-weight: 900;
+            font-size: 1.3rem;
+            text-decoration: none;
+            color: var(--text-light);
+            letter-spacing: 1px;
+            text-align: center;
+        }
+
+        .nav-brand span {
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            list-style: none;
+            gap: 20px;
+        }
+
+        .nav-links button {
+            background: none;
+            border: none;
+            color: var(--text-gray);
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 6px 10px;
+        }
+
+        .nav-links button:hover, .nav-links button.active {
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+        }
+
+        /* --------------------------------------------------
+           4. COMMON PAGE STYLES & NATARAJA BG SYSTEM
+        ----------------------------------------------------- */
+        .page-view {
+            display: none;
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+            animation: fadeInView 0.4s ease forwards;
+        }
+
+        .page-view.active-view {
+            display: block;
+        }
+
+        @keyframes fadeInView {
+            0% { opacity: 0; transform: translateY(10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Ambient Home Container holding the background artwork layer */
+        .home-stage-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            border-radius: 16px;
+            padding: 20px 0;
+        }
+
+        /* Pinned Local Image Layer Calibrated for Soft Red Silhouette Aura Glow */
+        .nataraja-image-backdrop {
+            position: absolute;
+            top: 52%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            max-width: 650px;
+            height: auto;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.18; /* Retains clarity without washing out card contents */
+            /* Multi-layer drop-shadow engine specifically generates the vibrant red backlight aura */
+            filter: drop-shadow(0 0 12px rgba(255, 30, 30, 0.7)) 
+                    drop-shadow(0 0 35px rgba(255, 30, 30, 0.4));
+        }
+
+        .home-content-stack {
+            position: relative;
+            z-index: 2; /* Forces content perfectly over the silhouette layers */
+        }
+
+        .section-header {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .section-header h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+            line-height: 1.4;
+        }
+
+        .section-header p {
+            font-size: 0.95rem;
+            color: var(--text-gray);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* Social Media Hub Aligned Under Videos */
+        .performance-social-bar {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+
+        .media-link-btn {
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 700;
+            padding: 12px 24px;
+            border-radius: 25px;
+            color: #fff;
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .media-link-btn.tiktok { background: #000000; border: 1px solid #25f4ee; }
+        .media-link-btn.youtube { background: #ff0000; }
+        .media-link-btn.facebook { background: #1877f2; }
+        
+        .media-link-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px var(--primary-glow);
+        }
+
+        /* --------------------------------------------------
+           5. HOME PAGE - BASIC CLASS CARDS
+        ----------------------------------------------------- */
+        .class-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        .class-card {
+            background-color: var(--card-bg);
+            backdrop-filter: blur(4px); 
+            -webkit-backdrop-filter: blur(4px);
+            border-left: 4px solid var(--primary);
+            border-radius: 0 8px 8px 0;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            border-top: 1px solid rgba(255,255,255,0.02);
+            border-bottom: 1px solid rgba(255,255,255,0.02);
+            border-right: 1px solid rgba(255,255,255,0.02);
+            transition: var(--transition);
+        }
+
+        .class-card:hover {
+            background-color: var(--card-hover);
+        }
+
+        .class-details h3 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.3rem;
+            color: var(--text-light);
+            margin-bottom: 5px;
+        }
+
+        .class-details p {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+        }
+
+        .class-time {
+            background: rgba(255, 30, 30, 0.15);
+            border: 1px solid var(--primary);
+            color: var(--text-light);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            align-self: flex-start;
+        }
+
+        /* --------------------------------------------------
+           6. PERFORMANCES SECTION - SIDE BY SIDE VIDEO GRID
+        ----------------------------------------------------- */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            max-width: 1050px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .video-card {
+            background-color: rgb(20, 20, 20);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.04);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%;
+            background-color: #000;
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .video-fallback {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: #111;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .video-fallback p {
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+            color: var(--text-gray);
+        }
+
+        .fallback-link {
+            background-color: var(--primary);
+            color: var(--text-light);
+            padding: 8px 16px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .video-info {
+            padding: 20px;
+            flex-grow: 1;
+        }
+
+        .video-info h3 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.15rem;
+            margin-bottom: 8px;
+            color: var(--primary);
+        }
+
+        .video-info p {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+
+        /* --------------------------------------------------
+           7. CURRICULUM TABLE
+        ----------------------------------------------------- */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            background-color: rgb(20, 20, 20);
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.04);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        .routine-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            min-width: 500px;
+        }
+
+        .routine-table th {
+            background-color: #1a1a1a;
+            padding: 18px;
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            color: var(--primary);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .routine-table td {
+            padding: 18px;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+            font-size: 0.95rem;
+        }
+
+        .routine-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .day-name {
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            width: 30%;
+        }
+
+        .track-name {
+            color: var(--text-light);
+            font-weight: 600;
+        }
+
+        /* --------------------------------------------------
+           8. TEAM ALIGNMENT GRID LAYOUT
+        ----------------------------------------------------- */
+        .team-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 35px;
+            max-width: 950px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* Suresh Rai - Top Row Center Card Container */
+        .team-center-box {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        /* Krish and Alisha - Bottom Row Same Line Container */
+        .team-twins-box {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 35px;
+            width: 100%;
+        }
+
+        .team-card {
+            background-color: rgb(20, 20, 20);
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.04);
+            padding: 35px 25px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            transition: var(--transition);
+        }
+
+        .team-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+
+        .team-card.boss {
+            max-width: 480px;
+            border: 1px solid rgba(255, 30, 30, 0.3);
+            background: linear-gradient(180deg, #140d0d 0%, rgb(20, 20, 20) 100%);
+        }
+
+        .pic-circle {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            border: 3px solid var(--primary);
+            padding: 4px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            background: #222;
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        .pic-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .team-card h3 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.4rem;
+            margin-bottom: 4px;
+        }
+
+        .team-card .post {
+            color: var(--primary);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .team-bio {
+            font-size: 0.85rem;
+            color: #a0a0a0;
+            margin-bottom: 20px;
+            max-width: 280px;
+        }
+
+        .team-links {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            width: 100%;
+            max-width: 280px;
+        }
+
+        .team-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 10px;
+            border-radius: 6px;
+            transition: var(--transition);
+        }
+
+        .team-btn.fb { background: rgba(24, 119, 242, 0.15); color: #1877f2; border: 1px solid rgba(24, 119, 242, 0.3); }
+        .team-btn.fb:hover { background: #1877f2; color: #fff; }
+
+        .team-btn.ig { background: rgba(225, 48, 108, 0.15); color: #e1306c; border: 1px solid rgba(225, 48, 108, 0.3); }
+        .team-btn.ig:hover { background: #e1306c; color: #fff; }
+
+        .team-btn.phone { background: rgba(255,255,255,0.03); color: #fff; border: 1px solid var(--border-color); margin-top: 4px; }
+        .team-btn.phone:hover { background: var(--primary); border-color: var(--primary); box-shadow: 0 4px 12px var(--primary-glow); }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid rgba(255,255,255,0.04);
+            padding: 30px 20px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-gray);
+            margin-top: 60px;
+            background-color: #050505;
+        }
+
+        /* --------------------------------------------------
+           9. RESPONSIVE LAYOUT BREAKPOINTS
+        ----------------------------------------------------- */
+        @media (min-width: 768deg) {
+            .nav-container {
+                flex-direction: row;
+                justify-content: space-between;
+                padding: 18px 20px;
+            }
+            .class-card {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                padding: 30px 40px;
+            }
+            .class-time {
+                align-self: center;
+            }
+            .banner-title {
+                font-size: 2.8rem;
+            }
+        }
+
+        /* Mobile Screens Breakdown Override */
+        @media (max-width: 767deg) {
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+            .team-twins-box {
+                grid-template-columns: 1fr;
+            }
+            .nataraja-image-backdrop {
+                max-width: 380px;
+                top: 55%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="intro-overlay">
+        <div class="coin-wrapper">
+            <div class="coin-face coin-front"></div>
+            <div class="coin-face coin-back"></div>
+        </div>
+    </div>
+
+    <header class="top-header">
+        <img src="logo.png" alt="Royal Dance Academy Logo" class="header-logo">
+        <h1 class="banner-title">Royal <span>Dance</span> Academy</h1>
+        <p class="banner-subtitle">Dharan-9, Gautam Path • Established 2073</p>
+    </header>
+
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="nav-brand" onclick="switchTab('home')">Royal <span>Dance</span> Academy</a>
+            <ul class="nav-links">
+                <li><button id="tab-home" class="active" onclick="switchTab('home')">Home</button></li>
+                <li><button id="tab-performances" onclick="switchTab('performances')">Performances</button></li>
+                <li><button id="tab-currciulum" onclick="switchTab('currciulum')">Weekly Schedule</button></li>
+                <li><button id="tab-team" onclick="switchTab('team')">Our Team</button></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section id="view-home" class="page-view active-view">
+        <div class="home-stage-container">
+            
+            <img src="nataraja.png" alt="Lord Nataraja Backdrop" class="nataraja-image-backdrop">
+
+            <div class="home-content-stack">
+                <div class="section-header">
+                    <h2>Welcome to the Official Webpage of<br>Royal Dance Academy</h2>
+                    <p>Step onto the dance floor with training programs built for lifestyle rhythm, precision choreography, and professional performance tracking.</p>
+                </div>
+
+                <div class="class-list">
+                    <div class="class-card">
+                        <div class="class-details">
+                            <h3>Morning Class</h3>
+                            <p>Designed especially for housewives to build stamina, flexibility, and rhythm in a highly supportive, welcoming space.</p>
+                        </div>
+                        <div class="class-time">5:00 AM - 6:00 AM</div>
+                    </div>
+
+                    <div class="class-card">
+                        <div class="class-details">
+                            <h3>Evening Class</h3>
+                            <p>Perfect for students and professionals looking to learn progressive dance foundations and high-energy routines daily.</p>
+                        </div>
+                        <div class="class-time">5:00 PM - 6:00 PM</div>
+                    </div>
+
+                    <div class="class-card">
+                        <div class="class-details">
+                            <h3>Private Choreographies</h3>
+                            <p>Exclusive, personalized 1-on-1 coaching tracks engineered for special events, solo performances, and custom competitions.</p>
+                        </div>
+                        <div class="class-time">By Appointment</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="view-performances" class="page-view">
+        <div class="section-header">
+            <h2>Performance Portfolio</h2>
+            <p>Watch our academy students perform live on stage and festival shows across the region.</p>
+        </div>
+
+        <div class="video-grid">
+            <div class="video-card">
+                <div class="video-wrapper">
+                    <iframe 
+                        id="yt-player-1"
+                        src="https://www.youtube.com/embed/yib8D_hXg9g?enablejsapi=1" 
+                        title="Welcome dance | Royal Dance Academy | Deusi Bhailo program" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                    </iframe>
+                    <div class="video-fallback" id="fallback-1" style="display:none;">
+                        <p>Your browser safely blocked local embedded videos from playing.</p>
+                        <a href="https://www.youtube.com/watch?v=yib8D_hXg9g" target="_blank" class="fallback-link">Open on YouTube</a>
+                    </div>
+                </div>
+                <div class="video-info">
+                    <h3>Welcome Dance — Deusi Bhailo Program</h3>
+                    <p>Welcome dance by our students in Tihar 2082</p>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <div class="video-wrapper">
+                    <iframe 
+                        id="yt-player-2"
+                        src="https://www.youtube.com/embed/b-Lu83uN6IU?enablejsapi=1" 
+                        title="Chahene Jo jindaganima Nepali mix dance by Royal Dance Academy" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                    </iframe>
+                    <div class="video-fallback" id="fallback-2" style="display:none;">
+                        <p>Your browser safely blocked local embedded videos from playing.</p>
+                        <a href="https://www.youtube.com/watch?v=b-Lu83uN6IU" target="_blank" class="fallback-link">Open on YouTube</a>
+                    </div>
+                </div>
+                <div class="video-info">
+                    <h3>Chahene Jo Jindaganima — Nepali Mix Dance</h3>
+                    <p>Performed in Dingla Bhojpur by our students</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="performance-social-bar">
+            <a href="https://www.tiktok.com/@rda_dharan" target="_blank" class="media-link-btn tiktok">Follow On TikTok</a>
+            <a href="https://www.youtube.com/@royal_danceacademy_dharan" target="_blank" class="media-link-btn youtube">Subscribe On YouTube</a>
+            <a href="https://www.facebook.com/profile.php?id=100028877514801" target="_blank" class="media-link-btn facebook">Like Our Facebook</a>
+        </div>
+    </section>
+
+    <section id="view-currciulum" class="page-view">
+        <div class="section-header">
+            <h2>Academy Daily Curriculum</h2>
+            <p>Check out our everyday routine focus tracks carefully scheduled throughout the week.</p>
+        </div>
+
+        <div class="table-responsive">
+            <table class="routine-table">
+                <thead>
+                    <tr>
+                        <th>Training Session Day</th>
+                        <th>Choreography Track Focus</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="day-name">Sunday</td>
+                        <td class="track-name">Modern</td>
+                    </tr>
+                    <tr>
+                        <td class="day-name">Monday</td>
+                        <td class="track-name">Zumba/Semi Classical/Western</td>
+                    </tr>
+                    <tr>
+                        <td class="day-name">Tuesday</td>
+                        <td class="track-name">Cultural</td>
+                    </tr>
+                    <tr>
+                        <td class="day-name">Wednesday</td>
+                        <td class="track-name">Nepali Filmy</td>
+                    </tr>
+                    <tr>
+                        <td class="day-name">Thursday</td>
+                        <td class="track-name">Zumba</td>
+                    </tr>
+                    <tr>
+                        <td class="day-name">Friday</td>
+                        <td class="track-name">Compose (Video)</td>
+                    </tr>
+                    <tr>
+                        <td class="day-name" style="color: #666;">Saturday</td>
+                        <td style="color: #666; font-style: italic;">Break</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section id="view-team" class="page-view">
+        <div class="section-header">
+            <h2>Instructors & Leadership</h2>
+            <p>Our professional leaders and teachers who manage the classes and choreography inside the academy.</p>
+        </div>
+
+        <div class="team-layout">
+            <div class="team-center-box">
+                <div class="team-card boss">
+                    <div class="pic-circle">
+                        <img src="suresh.png" alt="Suresh Rai Profile">
+                    </div>
+                    <h3>Suresh Rai</h3>
+                    <div class="post">Managing Director / Founder</div>
+                    <p class="team-bio">Manages overall academy operations, schedules student performance bookings, and directs the visual growth of the school.</p>
+                    <div class="team-links">
+                        <a href="https://www.facebook.com/suresh.rai.9421" target="_blank" class="team-btn fb">Facebook</a>
+                        <a href="https://www.instagram.com/koyongwa_chu_chu_yakkha/" target="_blank" class="team-btn ig">Instagram</a>
+                        <a href="tel:+9779705388107" class="team-btn phone">📞 Call: +977 970-5388107</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="team-twins-box">
+                <div class="team-card">
+                    <div class="pic-circle">
+                        <img src="krish.png" alt="Krish Kalikote Profile">
+                    </div>
+                    <h3>Krish Kalikote</h3>
+                    <div class="post">Choreographer</div>
+                    <p class="team-bio">Teaches modern street dance foundations, high-energy cardio steps, and commercial fusion choreographies.</p>
+                    <div class="team-links">
+                        <a href="https://www.facebook.com/krish.kalikote" target="_blank" class="team-btn fb">Facebook</a>
+                        <a href="https://www.instagram.com/krishkalikote/" target="_blank" class="team-btn ig">Instagram</a>
+                        <a href="tel:+9779768801382" class="team-btn phone">📞 Call: +977 976-8801382</a>
+                    </div>
+                </div>
+
+                <div class="team-card">
+                    <div class="pic-circle">
+                        <img src="alisha.png" alt="Alisha Lwagun Profile">
+                    </div>
+                    <h3>Alisha Lwagun</h3>
+                    <div class="post">Choreographer</div>
+                    <p class="team-bio">Teaches classical cultural movements, traditional heritage steps, and filmy dance arrangements for events.</p>
+                    <div class="team-links">
+                        <a href="https://www.facebook.com/alisha.lwagun.2025" target="_blank" class="team-btn fb">Facebook</a>
+                        <a href="https://www.instagram.com/alishalwagun/" target="_blank" class="team-btn ig">Instagram</a>
+                        <a href="tel:+9779862617953" class="team-btn phone">📞 Call: +977 986-2617953</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Royal Dance Academy. Estd. 2073 BS. All Rights Reserved. Located in Dharan, Nepal.</p>
+    </footer>
+
+    <script>
+        function switchTab(tabId) {
+            document.querySelectorAll('.page-view').forEach(view => {
+                view.classList.remove('active-view');
+            });
+            document.querySelectorAll('.nav-links button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            document.getElementById('view-' + tabId).classList.add('active-view');
+            document.getElementById('tab-' + tabId).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            if (window.location.protocol === "file:") {
+                document.getElementById('fallback-1').style.display = 'flex';
+                document.getElementById('fallback-2').style.display = 'flex';
+                document.getElementById('yt-player-1').style.display = 'none';
+                document.getElementById('yt-player-2').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
