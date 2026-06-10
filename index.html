@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Royal Dance Academy | Dharan, Nepal</title>
+    
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="shortcut icon" type="image/png" href="logo.png">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
@@ -13,7 +17,7 @@
             --primary: #ff1e1e;
             --primary-glow: rgba(255, 30, 30, 0.4);
             --dark-bg: #0a0a0a;
-            --card-bg: rgba(20, 20, 20, 0.75); /* Glassmorphism translucency over silhouette */
+            --card-bg: rgba(20, 20, 20, 0.75);
             --card-hover: rgba(31, 31, 31, 0.85);
             --text-light: #ffffff;
             --text-gray: #cccccc;
@@ -216,7 +220,6 @@
             100% { opacity: 1; transform: translateY(0); }
         }
 
-        /* Ambient Home Container holding the background artwork layer */
         .home-stage-container {
             position: relative;
             width: 100%;
@@ -225,7 +228,7 @@
             padding: 20px 0;
         }
 
-        /* Pinned Local Image Layer Calibrated for Soft Red Silhouette Aura Glow */
+        /* Local Nataraja Glow Engine */
         .nataraja-image-backdrop {
             position: absolute;
             top: 52%;
@@ -236,15 +239,14 @@
             height: auto;
             z-index: 1;
             pointer-events: none;
-            opacity: 0.18; /* Retains clarity without washing out card contents */
-            /* Multi-layer drop-shadow engine specifically generates the vibrant red backlight aura */
+            opacity: 0.18;
             filter: drop-shadow(0 0 12px rgba(255, 30, 30, 0.7)) 
                     drop-shadow(0 0 35px rgba(255, 30, 30, 0.4));
         }
 
         .home-content-stack {
             position: relative;
-            z-index: 2; /* Forces content perfectly over the silhouette layers */
+            z-index: 2;
         }
 
         .section-header {
@@ -268,7 +270,7 @@
             line-height: 1.7;
         }
 
-        /* Social Media Hub Aligned Under Videos */
+        /* Social Hub buttons under video section */
         .performance-social-bar {
             display: flex;
             justify-content: center;
@@ -301,7 +303,7 @@
         }
 
         /* --------------------------------------------------
-           5. HOME PAGE - BASIC CLASS CARDS
+           5. HOME PAGE - CLASS CARDS
         ----------------------------------------------------- */
         .class-list {
             display: flex;
@@ -355,13 +357,14 @@
         }
 
         /* --------------------------------------------------
-           6. PERFORMANCES SECTION - SIDE BY SIDE VIDEO GRID
+           6. PERFORMANCES SECTION - 1-BY-1 VERTICAL LIST
         ----------------------------------------------------- */
         .video-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 30px;
-            max-width: 1050px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 35px;
+            max-width: 750px; /* narrowed layout for better vertical reading balance */
             margin: 0 auto;
             width: 100%;
         }
@@ -496,28 +499,22 @@
         }
 
         /* --------------------------------------------------
-           8. TEAM ALIGNMENT GRID LAYOUT
+           8. TEAM ALIGNMENT - PURE 1-BY-1 LIST
         ----------------------------------------------------- */
         .team-layout {
             display: flex;
             flex-direction: column;
+            align-items: center;
             gap: 35px;
-            max-width: 950px;
+            max-width: 480px; /* Fits all cards evenly downwards */
             margin: 0 auto;
             width: 100%;
         }
 
-        /* Suresh Rai - Top Row Center Card Container */
-        .team-center-box {
+        .team-center-box, .team-twins-box {
             display: flex;
-            justify-content: center;
-            width: 100%;
-        }
-
-        /* Krish and Alisha - Bottom Row Same Line Container */
-        .team-twins-box {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            flex-direction: column;
+            align-items: center;
             gap: 35px;
             width: 100%;
         }
@@ -541,7 +538,6 @@
         }
 
         .team-card.boss {
-            max-width: 480px;
             border: 1px solid rgba(255, 30, 30, 0.3);
             background: linear-gradient(180deg, #140d0d 0%, rgb(20, 20, 20) 100%);
         }
@@ -628,7 +624,7 @@
         }
 
         /* --------------------------------------------------
-           9. RESPONSIVE LAYOUT BREAKPOINTS
+           9. RESPONSIVE BREAKPOINTS (DESKTOP NAV & BANNER)
         ----------------------------------------------------- */
         @media (min-width: 768deg) {
             .nav-container {
@@ -650,17 +646,16 @@
             }
         }
 
-        /* Mobile Screens Breakdown Override */
-        @media (max-width: 767deg) {
-            .video-grid {
-                grid-template-columns: 1fr;
-            }
-            .team-twins-box {
-                grid-template-columns: 1fr;
-            }
+        /* --------------------------------------------------
+           10. MOBILE OPTIMIZATION OVERRIDES
+        ----------------------------------------------------- */
+        @media (max-width: 767px) {
             .nataraja-image-backdrop {
                 max-width: 380px;
                 top: 55%;
+            }
+            .team-card {
+                padding: 30px 20px;
             }
         }
     </style>
